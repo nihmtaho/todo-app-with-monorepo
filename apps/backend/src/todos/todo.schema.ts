@@ -7,7 +7,14 @@ export const TodoSchema = z.object({
   completed: z.boolean().default(false),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
-  dueDate: z.date().optional(),
+  dueDate: z
+    .preprocess((val) => {
+      if (typeof val === 'string' && val) {
+        return new Date(val);
+      }
+      return val;
+    }, z.date())
+    .optional(),
   priority: z.enum(['low', 'medium', 'high']).optional(),
 });
 
@@ -17,7 +24,6 @@ export const createTodoSchema = TodoSchema.omit({
 });
 
 export const updateTodoSchema = createTodoSchema.partial().extend({
-  id: z.string(),
   updatedAt: z.date().default(() => new Date()),
 });
 
