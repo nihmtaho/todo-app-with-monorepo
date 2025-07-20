@@ -13,7 +13,14 @@ const appRouter = t.router({
       completed: z.boolean().default(false),
       createdAt: z.date().default(() => new Date()),
       updatedAt: z.date().default(() => new Date()),
-      dueDate: z.date().optional(),
+      dueDate: z
+        .preprocess((val) => {
+          if (typeof val === 'string' && val) {
+            return new Date(val);
+          }
+          return val;
+        }, z.date())
+        .optional(),
       priority: z.enum(['low', 'medium', 'high']).optional(),
     })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     getAllTodos: publicProcedure.output(z.array(z.object({
@@ -23,7 +30,14 @@ const appRouter = t.router({
       completed: z.boolean().default(false),
       createdAt: z.date().default(() => new Date()),
       updatedAt: z.date().default(() => new Date()),
-      dueDate: z.date().optional(),
+      dueDate: z
+        .preprocess((val) => {
+          if (typeof val === 'string' && val) {
+            return new Date(val);
+          }
+          return val;
+        }, z.date())
+        .optional(),
       priority: z.enum(['low', 'medium', 'high']).optional(),
     }))).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     createTodo: publicProcedure.input(z.object({
@@ -33,7 +47,14 @@ const appRouter = t.router({
       completed: z.boolean().default(false),
       createdAt: z.date().default(() => new Date()),
       updatedAt: z.date().default(() => new Date()),
-      dueDate: z.date().optional(),
+      dueDate: z
+        .preprocess((val) => {
+          if (typeof val === 'string' && val) {
+            return new Date(val);
+          }
+          return val;
+        }, z.date())
+        .optional(),
       priority: z.enum(['low', 'medium', 'high']).optional(),
     }).omit({
       id: true,
@@ -45,7 +66,14 @@ const appRouter = t.router({
       completed: z.boolean().default(false),
       createdAt: z.date().default(() => new Date()),
       updatedAt: z.date().default(() => new Date()),
-      dueDate: z.date().optional(),
+      dueDate: z
+        .preprocess((val) => {
+          if (typeof val === 'string' && val) {
+            return new Date(val);
+          }
+          return val;
+        }, z.date())
+        .optional(),
       priority: z.enum(['low', 'medium', 'high']).optional(),
     })).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     updateTodo: publicProcedure.input(z.object({
@@ -57,13 +85,19 @@ const appRouter = t.router({
         completed: z.boolean().default(false),
         createdAt: z.date().default(() => new Date()),
         updatedAt: z.date().default(() => new Date()),
-        dueDate: z.date().optional(),
+        dueDate: z
+          .preprocess((val) => {
+            if (typeof val === 'string' && val) {
+              return new Date(val);
+            }
+            return val;
+          }, z.date())
+          .optional(),
         priority: z.enum(['low', 'medium', 'high']).optional(),
       }).omit({
         id: true,
         createdAt: true,
       }).partial().extend({
-        id: z.string(),
         updatedAt: z.date().default(() => new Date()),
       }),
     })).output(z.object({
@@ -73,7 +107,14 @@ const appRouter = t.router({
       completed: z.boolean().default(false),
       createdAt: z.date().default(() => new Date()),
       updatedAt: z.date().default(() => new Date()),
-      dueDate: z.date().optional(),
+      dueDate: z
+        .preprocess((val) => {
+          if (typeof val === 'string' && val) {
+            return new Date(val);
+          }
+          return val;
+        }, z.date())
+        .optional(),
       priority: z.enum(['low', 'medium', 'high']).optional(),
     })).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     deleteTodo: publicProcedure.input(z.object({ id: z.string() })).output(z.boolean()).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
